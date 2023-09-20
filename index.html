@@ -32,7 +32,7 @@
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/favicon.svg">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
@@ -175,21 +175,22 @@
   </div>
 </section>
 
-<!-- <section class="hero teaser">
+<section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
+      <!-- <video id="teaser" autoplay muted loop playsinline height="100%">
         <source src="./static/videos/teaser.mp4"
                 type="video/mp4">
-      </video>
+      </video> -->
+      <img src="./static/images/teaser4_1.png"
+           class="center-image"
+           alt="Teaser image showing the performance of a conventional method and the proposed method."/>
       <h2 class="subtitle has-text-centered">
-        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
-        free-viewpoint
-        portraits.
+        For this specific QR code: Existing scanners work up to 21m, while QfaR works even at 88m away, a 4x improvement.
       </h2>
     </div>
   </div>
-</section> -->
+</section>
 
 
 <!-- <section class="hero is-light is-small">
@@ -258,7 +259,30 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Coming soon...
+            Visual codes such as QR codes provide a low-cost and convenient
+            communication channel between physical objects
+            and mobile devices, but typically operate when the code and
+            the device are in close physical proximity. We propose a
+            system, called QfaR, which enables mobile devices to scan
+            visual codes across long distances even where the image
+            resolution of the visual codes is extremely low. QfaR is based
+            on location-guided code scanning, where we utilize a crowdsourced
+            database of physical locations of codes. Our key
+            observation is that if the approximate location of the codes
+            and the user is known, the space of possible codes can be dramatically
+            pruned down. Then, even if every “single bit” from
+            the low-resolution code cannot be recovered, QfaR can still
+            identify the visual code from the pruned list with high probability.
+            By applying computer vision techniques, QfaR is also
+            robust against challenging imaging conditions, such as tilt,
+            motion blur,etc. Experimental results with common iOS and
+            Android devices show that QfaR can significantly enhance
+            distances at which codes can be scanned, e.g., 3.6cm-sized
+            codes can be scanned at a distance of 7.5 meters, and 0.5m-sized
+            codes at about 100 meters. QfaR has many potential
+            applications, and beyond our diverse experiments, we also
+            conduct a simple case study on its use for efficiently scanning
+            QR code-based badges to estimate event attendance.
           </p>
         </div>
       </div>
@@ -283,7 +307,170 @@
 <section class="section">
   <div class="container is-max-desktop">
 
+
     <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Key Observation</h2>
+
+        <div class="content has-text-justified">
+          <img src="./static/images/user_experience1.png"
+               class="center-image"
+               alt="Illustration showing the key observation of this work."/>
+          <p>
+            Do we need to recover every single bit? Conventional QR code decoders use Reed-Solomon error correction to make the decoding tolerant to errors. 
+            However, since the goal is to find a unique code in the entire code space (over 2<sup>100</sup>), it is still challenging for heavily degraded images.
+            If we know the approximate locations of the user and codes, the list of possible codes can be significantly pruned, which makes the problem of finding the right code much easier.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Intensity-Based Code Matching</h2>
+
+        <div class="content has-text-justified">
+          <img src="./static/images/match_intuition.png"
+               class="center-image"
+               width="50%"
+               alt="Figure showing why intensity-based matching can be used."/>
+          <p>
+            How to find the correct code from the pruned list? Conventional decoders apply thresholding to the captured degraded code image to get a binary code, which contains lots of error bits and therefore cannot be decoded.
+            Although the captured code image is heavily degraded, it still contains visual features such as blobs of black/white bits.
+            Therefore, we propose to treat these captured code as "images" and match based on their intensities. 
+            Specifically, we find the candidate code <math display="inline"><mrow><mi>D</mi></mrow></math> with shortest L2 distance to scanned code <math display="inline"><mrow><msub><mi>I</mi><mi>m</mi></msub></mrow></math> (template matching)
+            <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <msub>
+                  <mi>D</mi>
+                  <mi>m</mi>
+                </msub>
+                <mo>=</mo>
+                <!-- <mo>argmi</mo> -->
+                <!-- <mi>r</mi>
+                <mi>g</mi>
+                <mi>m</mi>
+                <mi>i</mi> -->
+                <msub>
+                  <mo>argmin</mo>
+                  <mrow>
+                    <mi>D</mi>
+                    <mo>∈</mo>
+                    <mi>S</mi>
+                  </mrow>
+                </msub>
+                <msub>
+                  <mi>d</mi>
+                  <mrow>
+                    <mi>L</mi>
+                    <mn>2</mn>
+                  </mrow>
+                </msub>
+                <mrow>
+                  <mo stretchy="true" form="prefix">(</mo>
+                  <msub>
+                    <mi>I</mi>
+                    <mi>m</mi>
+                  </msub>
+                  <mo>,</mo>
+                  <mi>D</mi>
+                  <mo stretchy="true" form="postfix">)</mo>
+                </mrow>
+                <mspace width="0.167em" />
+                <mi>.</mi>
+              </mrow>
+            </math>
+            Please refer to the paper for more insights and reasoning behind this design.
+
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Method: Complete Pipeline</h2>
+
+        <div class="content has-text-justified">
+          <img src="./static/images/pipeline.png"
+               class="center-image"
+               width="70%"
+               alt="Figure showing the complete pipeline of the method."/>
+          <p>
+            The complete pipeline of the proposed method is described as follows: When the user wants to scan a code, the app will take a picture of the current scene. 
+            The captured image is sent to a QR code detector which crops out only the part of the image that contains the code. 
+            Simultaneously, the GPS location of the user will be sent to a database and look up a list of QR codes within the vicinity.
+            The scanned code image is then matched to the list of codes using the intensity-based matching described above.
+            Next, we will describe the missing pieces (1) code detection, (2) code database in detail.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Code Detection</h2>
+
+        <div class="content has-text-justified">
+          <img src="./static/images/detector_aligner.png"
+               class="center-image"
+               width="70%"
+               alt="Figure showing the network design for detector and aligner."/>
+          <p>
+            We first use a YOLO network to detect a bounding box of the QR code in the scene. We then use a key point detection network to predict a heat map for potential key points (3 corners)
+            The fourth corner is predicted by assuming the four key points form a parallelogram (weak-perspective projection).
+            A homography is computed to transform the paralellogram to a square (rectification) such that codes captured at different viewing angles can be matched directly.
+            Both networks are trained with simulation data with physics-based imaging models.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Building Code Database</h2>
+
+        <div class="content has-text-justified">
+          <img src="./static/images/user_experience2.png"
+               class="center-image"
+               alt="Figure showing the idea of building the code database via crowdsourcing."/>
+          <p>
+            Crowdsourcing.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Experiments</h2>
+
+        <div class="content has-text-justified">
+          <img src="./static/images/experiments.png"
+               class="center-image"
+               alt="Teaser image showing the performance of a conventional method and the proposed method."/>
+          <p>
+            Experiments.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Additional Applications</h2>
+
+        <div class="content has-text-justified">
+          <img src="./static/images/teaser4_2.png"
+               class="center-image"
+               alt="Teaser image showing the performance of a conventional method and the proposed method."/>
+          <p>
+            In addition to long-distance attentive scanning.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="columns is-centered"> -->
 
       <!-- Visual Effects. -->
       <!-- <div class="column">
@@ -417,38 +604,41 @@
 </section>
 
 
-<!-- <section class="section" id="BibTeX">
+<section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@article{park2021nerfies,
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
+    <pre><code>@inproceedings{ma2023qfar,
+  author    = {Ma, Sizhuo and Wang, Jian and Chen, Wenzheng and Banerjee, Suman and Gupta, Mohit and Nayar, Shree},
+  title     = {QfaR: Location-Guided Scanning of Visual Codes from Long Distances},
+  year      = {2023},
+  booktitle = {Proceedings of the 29th Annual International Conference on Mobile Computing and Networking},
+  articleno = {4},
+  numpages = {14},
+  series = {MobiCom '23}
 }</code></pre>
   </div>
-</section> -->
+</section>
 
 
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
       <a class="icon-link"
-         href="https://sizhuom.github.io/qfar">
+         href="static/pdf/MOBICOM_2023___QfaR.pdf">
         <i class="fas fa-file-pdf"></i>
       </a>
-      <a class="icon-link" href="https://sizhuom.github.io/qfar" class="external-link" disabled>
+      <!-- <a class="icon-link" href="https://sizhuom.github.io/qfar" class="external-link" disabled>
         <i class="fab fa-github"></i>
-      </a>
+      </a> -->
     </div>
     <div class="columns is-centered">
       <div class="column is-8">
         <div class="content">
-          <!-- <p>
+          <p>
             This website is licensed under a <a rel="license"
                                                 href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
             Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p> -->
+          </p>
           <p>
             The source code of this website is based on <a
               href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
