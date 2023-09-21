@@ -89,32 +89,30 @@
       <div class="columns is-centered">
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title">QfaR: Location-Guided Scanning of Visual Codes from Long Distances</h1>
-          <!-- <div class="is-size-5 publication-authors">
+          <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
+              <a href="https://sizhuoma.netlify.app/">Sizhuo Ma</a><sup>1</sup>,</span>
             <span class="author-block">
-              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
+              <a href="https://jianwang-cmu.github.io/">Jian Wang</a><sup>1</sup>,</span>
             <span class="author-block">
-              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
+              <a href="https://www.cs.toronto.edu/~wenzheng/">Wenzheng Chen</a><sup>3</sup>,
             </span>
             <span class="author-block">
-              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
+              <a href="https://pages.cs.wisc.edu/~suman/">Suman Banerjee</a><sup>2</sup>,
             </span>
             <span class="author-block">
-              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
+              <a href="https://wisionlab.com/people/mohit-gupta/">Mohit Gupta</a><sup>2</sup>,
             </span>
             <span class="author-block">
-              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
+              <a href="https://www.cs.columbia.edu/~nayar/">Shree Nayar</a><sup>1</sup>,
             </span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Washington,</span>
-            <span class="author-block"><sup>2</sup>Google Research</span>
-          </div> -->
+            <span class="author-block"><sup>1</sup>Snap Inc.,</span>
+            <span class="author-block"><sup>2</sup>University of Wisconsin-Madison,</span>
+            <span class="author-block"><sup>3</sup>University of Toronto</span>
+          </div>
 
           <div class="column has-text-centered">
             <div class="publication-links">
@@ -435,7 +433,9 @@
                class="center-image"
                alt="Figure showing the idea of building the code database via crowdsourcing."/>
           <p>
-            Crowdsourcing.
+            Instead of manually creating a spatially-indexed database of QR codes, we propose building the database through crowdsourcing.
+            Every time a user use a conventional QR code scanner to scan a QR code, the approximate GPS location of the user is saved and registered to the code in the database.
+            The GPS location of the code is then estimated by a weighted average of past user locations, whose accuracy improves over time as more and more users scan it.
           </p>
         </div>
       </div>
@@ -448,9 +448,9 @@
         <div class="content has-text-justified">
           <img src="./static/images/experiments.png"
                class="center-image"
-               alt="Teaser image showing the performance of a conventional method and the proposed method."/>
+               alt="Figure showing experiments results."/>
           <p>
-            Experiments.
+            We evaluate each component of QfaR separately. We also compare QfaR with existing methods and show that it is much more robust to long distances, large tilt angles, motion blur and poor lighting.
           </p>
         </div>
       </div>
@@ -463,9 +463,12 @@
         <div class="content has-text-justified">
           <img src="./static/images/teaser4_2.png"
                class="center-image"
-               alt="Teaser image showing the performance of a conventional method and the proposed method."/>
+               alt="Figure showing additional applications including serendipitous scanning and context-aware scanning."/>
           <p>
-            In addition to long-distance attentive scanning.
+            In addition to long-distance <b>attentive scanning</b>, QfaR can also be used for <b>serendipitous scanning</b>, which means that extremely small codes can be discovered as a surprise even though the user has no intent of scanning a code when using a camera app.
+            The idea of pruning the code space also enables <b>context-aware scanning</b>, where the code space is pruned by other kind of contextual information. 
+            For example, it is possible to friend a person across a long table, where the code space is pruned down to people who is using the app right now.
+            QfaR opens up a myriad of possibilities for unprecedented applications.
           </p>
         </div>
       </div>
